@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -33,7 +36,7 @@ public class KonversiSuhuForm extends javax.swing.JFrame {
         scaleComboBox = new javax.swing.JComboBox<>();
         convertButton = new javax.swing.JButton();
         fromCelciusRadioButton = new javax.swing.JRadioButton();
-        hasil = new javax.swing.JLabel();
+        outputLabel = new javax.swing.JLabel();
         toCelciusRadioButton = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -66,6 +69,11 @@ public class KonversiSuhuForm extends javax.swing.JFrame {
 
         convertButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         convertButton.setText("Konversi");
+        convertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                convertButtonActionPerformed(evt);
+            }
+        });
 
         fromCelciusRadioButton.setLabel("From Celcius");
         fromCelciusRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -74,7 +82,7 @@ public class KonversiSuhuForm extends javax.swing.JFrame {
             }
         });
 
-        hasil.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        outputLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         toCelciusRadioButton.setLabel("To Celcius");
 
@@ -97,12 +105,10 @@ public class KonversiSuhuForm extends javax.swing.JFrame {
                             .addComponent(scaleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(15, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(convertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(convertButton, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+                            .addComponent(outputLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addComponent(hasil, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,7 +125,7 @@ public class KonversiSuhuForm extends javax.swing.JFrame {
                 .addGap(13, 13, 13)
                 .addComponent(convertButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(hasil, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(outputLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -150,6 +156,45 @@ public class KonversiSuhuForm extends javax.swing.JFrame {
     private void fromCelciusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromCelciusRadioButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fromCelciusRadioButtonActionPerformed
+
+    private void convertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_convertButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+        double suhu = Double.parseDouble(inputTextField.getText());
+        String skala = (String) scaleComboBox.getSelectedItem();
+        double hasil = 0;
+
+        if (fromCelciusRadioButton.isSelected()) {
+            switch (skala) {
+                case "Fahrenheit":
+                    hasil = (suhu * 9/5) + 32;
+                    break;
+                case "Reamur":
+                    hasil = suhu * 4/5;
+                    break;
+                case "Kelvin":
+                    hasil = suhu + 273.15;
+                    break;
+            }
+        } else if (toCelciusRadioButton.isSelected()) {
+            switch (skala) {
+                case "Fahrenheit":
+                    hasil = (suhu - 32) * 5/9;
+                    break;
+                case "Reamur":
+                    hasil = suhu * 5/4;
+                    break;
+                case "Kelvin":
+                    hasil = suhu - 273.15;
+                    break;
+            }
+        }
+
+        outputLabel.setText("Hasil: " + hasil);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Harap masukkan angka yang valid!", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_convertButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,12 +234,12 @@ public class KonversiSuhuForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton convertButton;
     private javax.swing.JRadioButton fromCelciusRadioButton;
-    private javax.swing.JLabel hasil;
     private javax.swing.JTextField inputTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel outputLabel;
     private javax.swing.JComboBox<String> scaleComboBox;
     private javax.swing.JRadioButton toCelciusRadioButton;
     // End of variables declaration//GEN-END:variables
