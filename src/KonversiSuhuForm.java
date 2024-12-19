@@ -64,6 +64,15 @@ public class KonversiSuhuForm extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Masukkan Suhu");
 
+        inputTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inputTextFieldKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inputTextFieldKeyTyped(evt);
+            }
+        });
+
         scaleComboBox.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         scaleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Celcius", "Fahrenheit", "Reamur", "Kelvin" }));
 
@@ -85,6 +94,11 @@ public class KonversiSuhuForm extends javax.swing.JFrame {
         outputLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         toCelciusRadioButton.setLabel("To Celcius");
+        toCelciusRadioButton.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                toCelciusRadioButtonItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -155,6 +169,9 @@ public class KonversiSuhuForm extends javax.swing.JFrame {
 
     private void fromCelciusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromCelciusRadioButtonActionPerformed
         // TODO add your handling code here:
+        if (fromCelciusRadioButton.isSelected()) {
+            scaleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fahrenheit", "Reamur", "Kelvin" }));
+        }
     }//GEN-LAST:event_fromCelciusRadioButtonActionPerformed
 
     private void convertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_convertButtonActionPerformed
@@ -195,6 +212,68 @@ public class KonversiSuhuForm extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Harap masukkan angka yang valid!", "Error", JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_convertButtonActionPerformed
+
+    private void inputTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputTextFieldKeyReleased
+        // TODO add your handling code here:
+        try {
+            // Ambil input suhu
+            double suhu = Double.parseDouble(inputTextField.getText());
+
+            // Ambil skala suhu yang dipilih
+            String skala = (String) scaleComboBox.getSelectedItem();
+
+            // Hasil konversi
+            double hasil = 0;
+
+            // Logika konversi berdasarkan arah
+            if (fromCelciusRadioButton.isSelected()) {
+                switch (skala) {
+                    case "Fahrenheit":
+                        hasil = (suhu * 9/5) + 32;
+                        break;
+                    case "Reamur":
+                        hasil = suhu * 4/5;
+                        break;
+                    case "Kelvin":
+                        hasil = suhu + 273.15;
+                        break;
+                }
+            } else if (toCelciusRadioButton.isSelected()) {
+                switch (skala) {
+                    case "Fahrenheit":
+                        hasil = (suhu - 32) * 5/9;
+                        break;
+                    case "Reamur":
+                        hasil = suhu * 5/4;
+                        break;
+                    case "Kelvin":
+                        hasil = suhu - 273.15;
+                        break;
+                }
+            }
+
+            // Tampilkan hasil pada label output
+            outputLabel.setText("Hasil: " + hasil);
+        } catch (NumberFormatException e) {
+            // Jika input tidak valid, kosongkan label hasil
+            outputLabel.setText("Hasil: -");
+        }
+    }//GEN-LAST:event_inputTextFieldKeyReleased
+
+    private void inputTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputTextFieldKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != '.') {
+            evt.consume(); // Abaikan karakter selain angka dan titik desimal
+        }
+    }//GEN-LAST:event_inputTextFieldKeyTyped
+
+    private void toCelciusRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_toCelciusRadioButtonItemStateChanged
+        // TODO add your handling code here:
+        if (toCelciusRadioButton.isSelected()) {
+            scaleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fahrenheit", "Reamur", "Kelvin" }));
+        }
+    }//GEN-LAST:event_toCelciusRadioButtonItemStateChanged
 
     /**
      * @param args the command line arguments

@@ -145,6 +145,10 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="inputTextField">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inputTextFieldKeyReleased"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inputTextFieldKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="scaleComboBox">
           <Properties>
@@ -194,6 +198,9 @@
           <Properties>
             <Property name="label" type="java.lang.String" value="To Celcius"/>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="toCelciusRadioButtonItemStateChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
